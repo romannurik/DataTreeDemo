@@ -1,0 +1,61 @@
+:root {
+  --accent-color: #1a73e8;
+  --text-field-border-color: #{rgba(#000, .54)};
+  --text-rgb: 0,0,0;
+  --text-color: #{rgba(#000, .87)};
+  --text-color-2: #{rgba(#000, .54)};
+  --text-color-3: #{rgba(#000, .38)};
+  --thin-border-color: #{rgba(#000, .2)};
+  --error-color: #ff5252;
+  --background-color: #fff;
+  --background-color-2: #fafafa;
+  --background-color-3: #030303;
+  --popup-color: var(--background-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+html.dark-mode {
+  --accent-color: #8AB4F8;
+  --text-field-border-color: #{rgba(#fff, .54)};
+  --text-rgb: 255,255,255;
+  --text-color: #{rgba(#fff, 1)};
+  --text-color-2: #{rgba(#fff, .7)};
+  --text-color-3: #{rgba(#fff, .5)};
+  --thin-border-color: #{rgba(#fff, .3)};
+  --error-color: #FF8A80;
+  --background-color: #051E34;
+  --background-color-2: #1B3A57;
+  --background-color-3: #2A4865;
+  --popup-color: var(--background-color-2);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.controls {
+  position: fixed;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  align-items: stretch;
+
+  button {
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: bold;
+    background: transparent;
+    color: var(--accent-color);
+    border: none;
+    padding: 2px 12px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px var(--accent-color);
+    margin: 0 4px;
+    outline: 0;
+    cursor: pointer;
+
+    &:active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.menu {
+  border-radius: 8px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: var(--popup-color, var(--background-color));
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.30), 0 2px 6px 2px rgba(60,64,67,0.15);
+  visibility: hidden;
+  z-index: 1000;
+
+  &.is-open {
+    visibility: visible;      
+  }
+}
+
+.menu-item {
+  padding: 4px 20px;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-color);
+
+  $itemSel: &;
+
+  &-icon {
+    display: flex;
+    margin-left: -4px;
+    margin-right: 12px;
+    fill: var(--text-color-3);
+
+    #{$itemSel}.is-selected & {
+      fill: var(--accent-color);
+    }
+  }
+
+  &.is-selected {
+    color: var(--accent-color);
+  }
+
+  &:hover {
+    background-color: rgba(var(--text-rgb), .04);
+  }
+}
+
+.menu-scrim {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 999;
+}
