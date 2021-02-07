@@ -32,11 +32,24 @@ html.dark-mode {
   color: var(--text-color);
 }
 
+.container {
+  display: grid;
+  grid-template:
+      'controls controls' auto
+      'left right' 1fr / 1fr 1fr;
+  min-width: 0;
+  height: 100vh;
+  align-items: center;
+  width: 100%;
+  padding: 24px;
+  gap: 24px;
+  box-sizing: border-box;;
+}
+
 .controls {
-  position: fixed;
-  right: 16px;
-  top: 16px;
   display: flex;
+  justify-self: flex-end;
+  grid-area: controls;
   align-items: stretch;
 
   button {
@@ -58,4 +71,14 @@ html.dark-mode {
       color: var(--background-color);
     }
   }
+}
+
+.pane {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: scroll;
+  padding: 12px;
+  margin: 0;
+  border: 1px solid var(--thin-border-color);
+  align-self: stretch;
 }

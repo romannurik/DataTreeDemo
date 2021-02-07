@@ -119,7 +119,7 @@ function EditorNode({
             obj.k = k;
             obj.v = v;
             if (reason === 'enter') {
-              finishEditing();
+              finishEditing({ reason });
             }
           }}
           addSiblingCallback={addChild} />
@@ -244,12 +244,25 @@ function Node({ k, value, isRoot, updateCallback, addSiblingCallback }) {
 /**
  * The container for the tree.
  */
-export function EditableTree({ data: initialData, rootKey = "root" }) {
-  let [data, setData] = useState(cleanupObject(initialData));
-  let update = (_, value) => setData(cleanupObject(JSON.parse(JSON.stringify(value))));
+export function EditableTree({
+  data,
+  rootKey = "root",
+  onChange,
+}) {
+  // let [data, setData] = useState(cleanupObject(initialData));
+
+  let update = (_, value) => {
+    let newValue = cleanupObject(JSON.parse(JSON.stringify(value)));
+    // setData(newValue);
+    onChange && onChange(newValue);
+  };
 
   return <div className="tree">
-    <Node k={rootKey} value={data} isRoot={true} updateCallback={update} />
+    <Node
+      k={rootKey}
+      value={data}
+      isRoot={true}
+      updateCallback={update} />
   </div>;
 }
 
