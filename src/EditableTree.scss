@@ -1,9 +1,32 @@
 .tree {
   --tree-line-color: var(--thin-border-color, #{rgba(#000, .2)});
-  --tree-kv-box-height: 24px;
-  --tree-row-height: 28px;
-  --tree-row-gutter: 32px;
-  --tree-extra-indent: -6px;
+  --tree-kv-box-height: 28px;
+  --tree-key-font-size: 14px;
+  --tree-value-font-size: 16px;
+  --tree-row-height: 32px;
+  --tree-row-gutter: 40px;
+  --tree-extra-indent: -8px;
+  --tree-collapse-circle-size: 20px;
+
+  &.density-comfortable {
+    --tree-key-font-size: 13px;
+    --tree-value-font-size: 14px;
+    --tree-kv-box-height: 24px;
+    --tree-row-height: 28px;
+    --tree-row-gutter: 32px;
+    --tree-extra-indent: -6px;
+    --tree-collapse-circle-size: 16px;
+  }
+
+  &.density-compact {
+    --tree-key-font-size: 13px;
+    --tree-value-font-size: 14px;
+    --tree-kv-box-height: 20px;
+    --tree-row-height: 20px;
+    --tree-row-gutter: 24px;
+    --tree-extra-indent: -2px;
+    --tree-collapse-circle-size: 16px;
+  }
 
   display: flex;
   flex-direction: column;
@@ -50,7 +73,7 @@
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Roboto Mono';
-    font-size: 13px;
+    font-size: var(--tree-key-font-size);
     line-height: var(--tree-kv-box-height);
     color: var(--text-color);
     width: 80px;
@@ -75,6 +98,8 @@
   }
 
   .typed-field {
+    --typed-input-font-size: var(--tree-value-font-size);
+    --typed-input-line-height: var(--tree-kv-box-height);
     height: 100%;
   }
 
@@ -95,8 +120,8 @@
   .node-key,
   .node-eq {
     font-family: 'Roboto Mono';
-    font-size: 13px;
-    line-height: 16px;
+    font-size: var(--tree-key-font-size);
+    line-height: var(--tree-kv-box-height);
     color: var(--text-color-2);
   }
 
@@ -121,7 +146,7 @@
 
   .inline-value {
     padding: 0 8px 0 8px;
-    font-size: 16px;
+    font-size: var(--tree-value-font-size);
     line-height: var(--tree-kv-box-height);
     cursor: text;
     text-overflow: ellipsis;
@@ -166,7 +191,6 @@
       top: 50%;
       transform: translate(-50%, -50%);
       transition: transform .2s cubic-bezier(.4, 0, .2, 1);
-      --circle-size: 16px;
       font-size: 20px;
       color: var(--text-color-2);
 
@@ -176,8 +200,8 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: var(--circle-size);
-        height: var(--circle-size);
+        width: var(--tree-collapse-circle-size);
+        height: var(--tree-collapse-circle-size);
         content: '';
         border-radius: 50%;
         z-index: -1;

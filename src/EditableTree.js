@@ -246,6 +246,7 @@ function Node({ k, value, isRoot, updateCallback, addSiblingCallback }) {
  */
 export function EditableTree({
   data,
+  className,
   rootKey = "root",
   onChange,
 }) {
@@ -257,7 +258,7 @@ export function EditableTree({
     onChange && onChange(newValue);
   };
 
-  return <div className="tree">
+  return <div className={cn(className, 'tree')}>
     <Node
       k={rootKey}
       value={data}

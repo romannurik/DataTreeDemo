@@ -55,10 +55,12 @@ html.dark-mode {
   button {
     font-size: 14px;
     font-family: Roboto;
-    font-weight: bold;
+    font-weight: 500;
     background: transparent;
     color: var(--accent-color);
     border: none;
+    display: flex;
+    align-items: center;
     padding: 2px 12px;
     border-radius: 4px;
     box-shadow: 0 0 0 2px var(--accent-color);

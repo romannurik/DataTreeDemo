@@ -40,8 +40,8 @@
     border: 0;
     box-shadow: 0 0 0 1px var(--text-field-border-color) inset;
     padding: 0 8px;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: var(--typed-input-font-size, 16px);
+    line-height: var(--typed-input-line-height, 20px);
     outline: 0;
     font-family: Roboto;
     background-color: var(--background-color);
