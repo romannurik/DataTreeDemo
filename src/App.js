@@ -31,9 +31,7 @@ function App() {
         <button onClick={() => setData(DATA)}>ex1</button>
         <button onClick={() => setData(DATA2)}>ex2</button>
         <button onClick={() => setNextDensity()}>
-          <i className="material-icons">
-            zoom_out
-          </i>
+          <i className="material-icons">zoom_out</i>
         </button>
         <button onClick={() => setDark(!dark)}>
           <i className="material-icons">
