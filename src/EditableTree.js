@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import './EditableTree.scss';
 import { TypedInput } from './TypedInput';
 
@@ -132,9 +132,21 @@ function EditorNode({
  * Renders a sub-tree, allowing new children to be added to the tree, and allowing
  * child items to be edited.
  */
-function SubtreeNode({ k, value, isRoot, updateCallback }) {
+function SubtreeNode({ k, value, isRoot, updateCallback }, ref) {
   let [addingChild, setAddingChild] = useState(false);
   let [collapsed, setCollapsed] = useState(false);
+  let childRefs = useRef({});
+
+  let deepSetCollapsed = collapsed => {
+    setCollapsed(collapsed);
+    for (let [, v] of Object.entries(childRefs.current)) {
+      v && v.setCollapsed && v.setCollapsed(collapsed);
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    setCollapsed: deepSetCollapsed
+  }));
 
   useEffect(() => {
     if (!!value && value._collapsed) {
@@ -144,10 +156,16 @@ function SubtreeNode({ k, value, isRoot, updateCallback }) {
     }
   }, []);
 
-  return <div className={cn('node', { 'is-collapsed': collapsed, 'is-root': isRoot })}>
+  return <div ref={ref} className={cn('node',
+    {
+      'is-collapsed': collapsed && !isRoot,
+      'is-root': isRoot
+    })}>
     <div className="node-row">
       {!isRoot && <button className="icon-button collapse-button"
-        onClick={() => setCollapsed(!collapsed)}>
+        onClick={ev => ((ev.shiftKey || ev.ctrlKey)
+          ? deepSetCollapsed
+          : setCollapsed)(!collapsed)}>
         <i className="material-icons">arrow_drop_down</i>
       </button>}
       <div className="node-kv-box">
@@ -173,6 +191,7 @@ function SubtreeNode({ k, value, isRoot, updateCallback }) {
             key={ck}
             k={ck}
             value={v}
+            ref={node => childRefs.current[ck] = node}
             updateCallback={(newChildKey, newChildValue) => {
               let newValue = { ...value };
               delete newValue[ck];
@@ -203,12 +222,13 @@ function SubtreeNode({ k, value, isRoot, updateCallback }) {
     </div>
   </div>;
 }
+SubtreeNode = forwardRef(SubtreeNode);
 
 /**
  * A dynamic node that decides how to draw itself based on its value (as a scalar value, or as a
  * subtree), and allows itsel to be edited.
  */
-function Node({ k, value, isRoot, updateCallback, addSiblingCallback }) {
+function Node({ k, value, isRoot, updateCallback, addSiblingCallback }, ref) {
   let [editing, setEditing] = useState(false);
 
   if (editing) {
@@ -227,6 +247,7 @@ function Node({ k, value, isRoot, updateCallback, addSiblingCallback }) {
   if (isSubtree) {
     return <SubtreeNode
       k={k}
+      ref={ref}
       value={value}
       isRoot={isRoot}
       updateCallback={updateCallback}
@@ -240,16 +261,17 @@ function Node({ k, value, isRoot, updateCallback, addSiblingCallback }) {
     startEditingCallback={() => setEditing(true)}
     deleteCallback={() => updateCallback(k, null)} />
 }
+Node = forwardRef(Node);
 
 /**
  * The container for the tree.
  */
-export function EditableTree({
+export const EditableTree = forwardRef(function EditableTree({
   data,
   className,
   rootKey = "root",
   onChange,
-}) {
+}, ref) {
   // let [data, setData] = useState(cleanupObject(initialData));
 
   let update = (_, value) => {
@@ -260,12 +282,13 @@ export function EditableTree({
 
   return <div className={cn(className, 'tree')}>
     <Node
+      ref={ref}
       k={rootKey}
       value={data}
       isRoot={true}
       updateCallback={update} />
   </div>;
-}
+});
 
 /**
  * Deeply removes nulls and empty objects in an object
