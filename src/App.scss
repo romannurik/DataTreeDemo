@@ -84,3 +84,9 @@ html.dark-mode {
   border: 1px solid var(--thin-border-color);
   align-self: stretch;
 }
+
+pre.pane {
+  font-family: 'Roboto Mono';
+  font-size: 14px;
+  line-height: 20px;
+}
